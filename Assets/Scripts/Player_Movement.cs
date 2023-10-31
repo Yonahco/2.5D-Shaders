@@ -12,6 +12,17 @@ public class Player_Movement : MonoBehaviour
 {
     private Vector2 moveVector;
     [SerializeField] float moveSpeed = 10f;
+    
+    private Rigidbody2D rb;
+    private Animator anim;
+    private SpriteRenderer sprite;
+
+    private void Start()
+    {
+        rb = GetComponentInChildren<Rigidbody2D>();
+        anim = GetComponentInChildren<Animator>();
+        sprite = GetComponentInChildren<SpriteRenderer>();
+    }
 
     private void Update()
     {
@@ -25,6 +36,23 @@ public class Player_Movement : MonoBehaviour
     public void movePlayer()
     {
         Vector3 movement = new Vector3(moveVector.x, 0f, moveVector.y);
+
+        if (moveVector.x > 0f)
+        {
+            anim.SetBool("running", true);
+            sprite.flipX = false;
+
+        }
+        else if (moveVector.x < 0f)
+        {
+            anim.SetBool("running", true);
+            sprite.flipX = true;
+
+        }
+        else
+        {
+            anim.SetBool("running", false);
+        }
         
         // This is for natural rotation of a 3D object, it will rotate in the direction of where it is moving
         // transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), 0.15f);
