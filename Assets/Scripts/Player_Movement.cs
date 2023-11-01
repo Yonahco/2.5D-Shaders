@@ -29,34 +29,45 @@ public class Player_Movement : MonoBehaviour
         movePlayer();
     }
     
-    public void onMove(InputAction.CallbackContext context)
-    {
-        moveVector = context.ReadValue<Vector2>();
-    }
     public void movePlayer()
     {
         Vector3 movement = new Vector3(moveVector.x, 0f, moveVector.y);
 
-        if (moveVector.x > 0f)
-        {
-            anim.SetBool("running", true);
-            sprite.flipX = false;
-
-        }
-        else if (moveVector.x < 0f)
-        {
-            anim.SetBool("running", true);
-            sprite.flipX = true;
-
-        }
-        else
-        {
-            anim.SetBool("running", false);
-        }
+        UpdateAnimationState();
         
         // This is for natural rotation of a 3D object, it will rotate in the direction of where it is moving
         // transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), 0.15f);
         transform.Translate(movement * moveSpeed * Time.deltaTime, Space.World);
     }
-    
+
+    private void UpdateAnimationState()
+    {
+        if (moveVector.x > 0f)
+        {
+            anim.SetBool("running", true);
+            sprite.flipX = false;
+        }
+        
+        else if (moveVector.x < 0f)
+        {
+            anim.SetBool("running", true);
+            sprite.flipX = true;
+        }
+        
+        else if (moveVector.y > 0f)
+        {
+            anim.SetBool("running", true);
+        }
+        
+        else if (moveVector.y < 0f)
+        {
+            anim.SetBool("running", true);
+        }
+        
+        else
+        {
+            anim.SetBool("running", false);
+        }
+    }
 }
+
